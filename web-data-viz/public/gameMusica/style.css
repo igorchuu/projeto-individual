@@ -1,0 +1,198 @@
+@font-face {
+    font-family: 'Neue Haas Unica';
+    src: local('Neue Haas Unica Medium'), local('Neue-Haas-Unica-Medium'),
+        url('../css/NeueHaasUnica-Medium.woff') format('woff'),
+        url('../css/NeueHaasUnica-Medium.woff2') format('woff2'),
+        url('../css/NeueHaasUnica-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Neue Haas Unica';
+    background-image: url(../assets/imgs/fundoJogo.jpg);
+    background-size: cover;
+    margin: 0;
+    background-color: black;
+}
+
+h1 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 55%;
+}
+
+.content .btnLogin button {
+    margin-top: 1rem;
+    width: 150px;
+    border-radius: 25px;
+    height: 35px;
+    background-color: black;
+    color: white;
+    transition: 500ms;
+}
+
+.content .btnLogin button:hover {
+    scale: 1.1;
+    background-color: white;
+    color: black;
+}
+
+#noLogin .box {
+    width: 30%;
+    height: 40%;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+
+.container .box {
+    width: 30%;
+    height: 85%;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+
+.container .box .btnBack {
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.container .box .titulo {
+    display: flex;
+    justify-content: center;
+}
+
+.container .box .conteudo .musica {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container .box .conteudo .musica p {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.container .box .conteudo .resposta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.container .box .conteudo .resposta div {
+    display: flex;
+}
+
+.container .box .conteudo .resposta div input {
+    width: 160px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 15px 0px 0px 15px;
+}
+
+.container .box .conteudo .resposta div button {
+    height: 26px;
+    background-color: white;
+    border-radius: 0px 15px 15px 0px;
+    border-left: 0px;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.container .box .conteudo .resposta div button:hover {
+    color: white;
+    transition: 500ms;
+    background-color: black;
+}
+
+.container .box .conteudo .tentativa .boxTentativa {
+    margin-top: 15px;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.container .box .conteudo .tentativa .boxTentativa p {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.btn button {
+    width: 160px;
+    height: 25px;
+    background-color: white;
+    border-radius: 15px;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.btn button:hover {
+    margin-top: 5px;
+    width: 165px;
+    height: 30px;
+    color: white;
+    transition: 500ms;
+    background-color: black;
+    border-radius: 15px;
+}
+
+iframe {
+    height: 90px;
+}
+
+.fimJogo{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.fimJogo button {
+    width: 15rem;
+    height: 4rem;
+    border-radius: 25px;
+    background-color: #A91D3A;
+    color: #EEEEEE;
+    font-size: 14px;
+    transition: 500ms;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: 15px;
+  }
+  
+  .fimJogo button {
+    scale: 1.1;
+  
+  }

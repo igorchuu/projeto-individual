@@ -1,0 +1,227 @@
+@font-face {
+    font-family: 'Neue Haas Unica';
+    src: local('Neue Haas Unica Medium'), local('Neue-Haas-Unica-Medium'),
+        url('../css/NeueHaasUnica-Medium.woff') format('woff'),
+        url('../css/NeueHaasUnica-Medium.woff2') format('woff2'),
+        url('../css/NeueHaasUnica-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+h1{
+    margin: 0;
+}
+
+body {
+    backdrop-filter: brightness(0.7);
+    font-family: 'Neue Haas Unica';
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-image: url(./assets/imgs/fundo.png);
+    background-repeat: no-repeat;
+    background-size: 85rem;
+    display: flex;
+    justify-content: center;
+}
+
+.login{
+    height: 100vh;
+    width: 90%;
+}
+
+.containerL {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.containerL .boxLogin .imgBack {
+    width: 100%;
+}
+
+.containerL .boxLogin {
+    width: 400px;
+    height: 440px;
+    background-color: #FFF;
+    border-radius: 15px;
+    padding: 10px;
+    margin: -10px;
+    border: 4px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerL .boxLogin .formsLogin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerL .boxLogin .formsLogin p {
+    text-align: end;
+    font-weight: bold;
+    padding-right: 15px;
+    margin: 10px;
+}
+
+.containerL .boxLogin .formsLogin input {
+    width: 380px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding-right: 15px;
+    font-size: 18px;
+    text-align: end;
+}
+
+.containerL .boxLogin .formsLogin .btnsLogin {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-end;
+    margin-top: 15px;
+}
+
+.containerL .boxLogin .formsLogin .btnsLogin button {
+    width: 180px;
+    height: 45px;
+    border: 2px solid black;
+    border-radius: 25px;
+    background-color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    background-image: url(./assets/imgs/entrar.png);
+    background-repeat: no-repeat;
+    background-position: 150px;
+    cursor: pointer;
+}
+
+.containerL .boxLogin .formsLogin .btnsLogin button:hover {
+    border: 2px solid #FFF;
+    background-color: black;
+    background-image: url(./assets/imgs/entrar2.png);
+    background-repeat: no-repeat;
+    background-position: 150px;
+    color: white;
+    transition: 0.8s;
+}
+
+.containerL .boxLogin .formsLogin .btnsLogin a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding-right: 22px;
+}
+
+.registro{
+    height: 100vh;
+    width: 90%;
+}
+
+.containerR {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.containerR .boxRegistro .imgBack {
+    width: 100%;
+}
+
+.containerR .boxRegistro {
+    width: 400px;
+    height: 460px;
+    background-color: #FFF;
+    border-radius: 15px;
+    padding: 10px;
+    margin: -10px;
+    border: 4px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerR .boxRegistro .formsRegistro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerR .boxRegistro .formsRegistro p {
+    font-weight: bold;
+    padding-left: 5px;
+    margin: 10px;
+}
+
+.containerR .boxRegistro .formsRegistro input {
+    width: 380px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding-right: 15px;
+    font-size: 18px;
+
+}
+
+.containerR .boxRegistro .formsRegistro .senhas .senha{
+    display: flex;
+    flex-direction: column;
+}
+
+.containerR .boxRegistro .formsRegistro .senhas{
+    display: flex;
+}
+.containerR .boxRegistro .formsRegistro .senhas input{
+    width: 170px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding-right: 15px;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.containerR .boxRegistro .formsRegistro .btnsRegistro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.containerR .boxRegistro .formsRegistro .btnsRegistro button {
+    width: 220px;
+    height: 45px;
+    border: 2px solid black;
+    border-radius: 25px;
+    background-color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    background-image: url(./assets/imgs/entrar.png);
+    background-repeat: no-repeat;
+    background-position: 185px;
+    cursor: pointer;
+}
+
+.containerR .boxRegistro .formsRegistro .btnsRegistro button:hover {
+    border: 2px solid #FFF;
+    background-color: black;
+    background-image: url(./assets/imgs/entrar2.png);
+    background-repeat: no-repeat;
+    background-position: 185px;
+    color: white;
+    transition: 0.8s;
+}
+
+.containerR .boxRegistro .formsRegistro .btnsRegistro a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding-left: 17px;
+}

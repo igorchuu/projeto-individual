@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container" id="noLogin">
+        <div class="box">
+            <div class="btnBack">
+                <a href="../index.html"><img src="../assets/imgs/iconAnt.png" width="40px" alt=""></a>
+            </div>
+            <div class="content">
+                <div class="titulo">
+                    <h1>Faça login para fazer o quiz</h1>
+                </div>
+                <div class="btnLogin">
+                    <a href="../loginRegistro/loginRegistro.html"><button>Login</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="inicio">
+        <div class="box">
+            <div class="btnBack">
+                <a href="../index.html"><img src="../assets/imgs/iconAnt.png" width="40px" alt=""></a>
+            </div>
+            <div class="titulo">
+                <h1>Adivinhe a musica</h1>
+            </div>
+            <div class="conteudo">
+
+                <div class="musica" id="musicaA">
+                    <audio src="../assets/audio/JesusWalks.mp3"></audio>
+                </div>
+                <div class="btn" id="btn">
+                    <button onclick="iniciar()">Proxima</button>
+                </div>
+                <div class="resposta" id="resposta">
+                    <p>Escreva sua resposta:</p>
+                    <div id="tentativas">
+                        <input type="text" id="inputResposta">
+                        <button onclick="tentativa()">></button>
+                    </div>
+                </div>
+                <div class="fimJogo" id="fimJogo" style="display: none;">
+                    <a href="../index.html"><button>ir para home</button></a>
+                </div>
+                <div class="tentativa" id="tentativaM">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    function verificar() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        if (idUsuario >= 0) {
+            inicio.style.display = 'flex'
+            noLogin.style.display = 'none'
+        } else {
+            inicio.style.display = 'none'
+            noLogin.style.display = 'flex'
+        }
+    }
+    verificar()
+
+    var listaSrcMusicas = [
+        '<iframe title="deezer-widget"src="https://widget.deezer.com/widget/dark/track/528869491?tracklist=false" width="210" height="150"frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/1184316?tracklist=false" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/630827302" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/130412306" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/7667065" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/68350107" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/126772753" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/581609142" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/785411522" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>',
+        '<iframe title="deezer-widget" src="https://widget.deezer.com/widget/dark/track/1506150412" width="210" height="150" frameborder="0" allowtransparency="true" allow="encrypted-media; clipboard-write"></iframe>'];
+
+
+    var listaMusicas = ['jesus walks', 'addiction', 'flashing lights', 'paranoid', 'runaway', 'new slaves', 'wolves', 'violent crimes', 'god is', 'believe what i say'];
+    var iAtual = '';
+    var listaMusicaChck = [];
+    var acertosVar = 0;
+    var errosVar = 0;
+    var errosAtual = 0;
+
+    function iniciar() {
+        tentativaM.innerHTML = ``;
+        tentativas.style.display = 'flex'
+
+        if (listaMusicaChck.length < listaMusicas.length) {
+            var iMusicaAtual = (Math.random() * (listaMusicas.length - 1)).toFixed();
+
+            if (listaMusicaChck.indexOf(iMusicaAtual) == -1) {
+                listaMusicaChck.push(iMusicaAtual);
+                musicaAtual = listaMusicas[iMusicaAtual];
+                musicaSrcAtual = listaSrcMusicas[iMusicaAtual];
+                iAtual = musicaAtual;
+                musicaA.innerHTML = `${musicaSrcAtual}`;
+            } else {
+                iniciar();
+            }
+            btn.style.display = 'none';
+        } else {
+            musicaA.innerHTML = `Fim de Jogo<br>
+        você completou com<br>
+        acertos: ${acertosVar}<br>
+        erros: ${errosVar}<br>`;
+            btn.style.display = 'none';
+            resposta.style.display = 'none';
+            fimJogo.style.display = 'flex';
+            cadastrar()
+        }
+    }
+    iniciar()
+    function tentativa() {
+        var resposta = inputResposta.value;
+        if (resposta != iAtual) {
+            tentativaM.innerHTML += `<div class="boxTentativa" style="background-color: red;"><p>${resposta}</p></div>`
+            errosAtual++
+            if (errosAtual == 5) {
+                btn.style.display = 'flex'
+                tentativas.style.display = 'none'
+                errosVar += errosAtual
+                errosAtual = 0
+            }
+            inputResposta.value = ''
+        } else {
+            tentativaM.innerHTML += `<div class="boxTentativa" style="background-color: green;"><p>${resposta}</p></div>`
+            btn.style.display = 'flex'
+            acertosVar++
+            errosVar += errosAtual
+            errosAtual = 0
+            inputResposta.value = ''
+        }
+    }
+
+    function cadastrar() {
+        // Enviando o valor da nova input
+        fkUsuarioVar = sessionStorage.ID_USUARIO;
+        fetch("/quiz/cadastrarJogo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                certoServer: acertosVar,
+                erradoServer: errosVar,
+                fkUsuarioServer: fkUsuarioVar
+
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
+    }
+</script>
+
+</html>

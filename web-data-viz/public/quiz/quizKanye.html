@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YE</title>
+    <link rel="shortcut icon" href="./yeezy/assets/imgs/yzyIcon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="../js/sessao.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav id="navbar">
+            <div class="left">
+                <div class="logo">
+                    <a href="#home"><img src="../assets/imgs/logo.png" alt="Logo"></a>
+                </div>
+                <div class="anchorNav">
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="#">Yeezy</a></li>
+                        <li><a href="../quiz/quizKanye.html">Quiz</a></li>
+                        <li><a href="../gameMusica/musicGame.html">Jogo</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right" id="direita">
+                <ul>
+                    <li><a href="../loginRegistro/loginRegistro.html">Login e registro</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container" id="noLogin">
+        <div class="content">
+            <div class="titulo">
+                <h1>Faça login para fazer o quiz</h1>
+            </div>
+            <div class="btnLogin">
+                <a href="../loginRegistro/loginRegistro.html"><button>Login</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="inicio">
+        <div class="content">
+            <div class="titulo">
+                <h1>Quiz do Kanye</h1>
+            </div>
+            <div class="conteudo">
+                <div class="texto">
+                    <p>Teste seu conhecimento sobre o artista KanYe West</p>
+                </div>
+                <button onclick="comecar()">Começar Quiz</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="quiz">
+        <h1>Quiz Kanye</h1>
+        <div id="pergunta"></div>
+        <div id="respostas"></div>
+        <div id="fim"></div>
+        <div class="btnHome" id="finalizar" style="display: none;">
+            <a href="../index.html"><button>Voltar para Home</button></a>
+        </div>
+
+    </div>
+</body>
+<script>
+
+    function verificar() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        if (idUsuario >= 0) {
+            direita.innerHTML = `<ul><li><a href="../dashboard/dashboard.html">Dashboard</a></li></ul>`
+            inicio.style.display = 'flex'
+            noLogin.style.display = 'none'
+        } else {
+            direita.innerHTML = `<ul><li><a href="../loginRegistro/loginRegistro.html">Login e registro</a></li></ul>`
+            inicio.style.display = 'none'
+            noLogin.style.display = 'flex'
+        }
+    }
+    verificar()
+
+    var perguntas = [
+        {
+            pergunta: "Qual o nome Completo do Kanye?",
+            respostas: ["Kanye West", "Kanye Omari West", "Ye west", "Kanye Omari West Kardashian"],
+            correta: 1
+        },
+        {
+            pergunta: "Qual foi o álbum de estreia de Kanye West?",
+            respostas: ["Late Registration", "Graduation", "808s Heartbreak", "The College Dropout"],
+            correta: 3
+        },
+        {
+            pergunta: "Qual é a trilogia do Kanye?",
+            respostas: ["The College Dropout, Late Registration, Graduation", "808s, MBDTF, Yeezus", "The college Dropout, 808s, MBDTF", "Graduation, Kids See Ghosts, Donda"],
+            correta: 0
+        },
+        {
+            pergunta: "Qual o nome da marca do Kanye?",
+            respostas: ["Ye", "Yeezus", "Y", "Yeezy"],
+            correta: 3
+        },
+        {
+            pergunta: "Em que ano Kanye West lançou o álbum 'Graduation'?",
+            respostas: ["2005", "2006", "2007", "2008"],
+            correta: 2
+        },
+        {
+            pergunta: "Com qual celebridade Kanye West se casou em 2014?",
+            respostas: ["Rihanna", "Beyoncé", "Amber Rose", "Kim Kardashian"],
+            correta: 3
+        },
+        {
+            pergunta: "Em que ano Kanye West lançou seu álbum 'Yeezus'?",
+            respostas: ["2011", "2012", "2013", "2014"],
+            correta: 2
+        }
+    ];
+
+
+
+    var perguntaAtual = 0;
+    var certoVar = 0;
+    var erradoVar = 0;
+
+    function comecar() {
+        var inicio = document.getElementById('inicio');
+        var quiz = document.getElementById('quiz');
+        inicio.style.display = "none";
+        quiz.style.display = "flex";
+    }
+
+    function displaypergunta() {
+        var perguntaElement = document.getElementById('pergunta');
+        var respostasElement = document.getElementById('respostas');
+
+        perguntaElement.textContent = perguntas[perguntaAtual].pergunta;
+        respostasElement.innerHTML = '';
+
+        perguntas[perguntaAtual].respostas.forEach(function (option, index) {
+            var button = document.createElement('button');
+            button.textContent = option;
+            button.onclick = function () {
+                if (index === perguntas[perguntaAtual].correta) {
+                    certoVar++;
+
+                } else {
+                    erradoVar++
+                }
+
+                perguntaAtual++;
+                if (perguntaAtual < perguntas.length) {
+                    displaypergunta();
+                } else {
+                    perguntaElement.textContent = "Fim do quiz!";
+                    respostas.innerHTML = '';
+                    fim.innerHTML += `Você acertou: ${certoVar} e errou: ${erradoVar}`;
+                    finalizar.style.display = 'flex';
+                    cadastrar();
+                }
+            };
+            respostasElement.appendChild(button);
+        });
+    }
+
+    displaypergunta();
+
+    function cadastrar() {
+        // Enviando o valor da nova input
+        fkUsuarioVar = sessionStorage.ID_USUARIO;
+        fetch("/quiz/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                certoServer: certoVar,
+                erradoServer: erradoVar,
+                fkUsuarioServer: fkUsuarioVar
+
+            }),
+        })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
+    }
+
+</script>
+
+</html>

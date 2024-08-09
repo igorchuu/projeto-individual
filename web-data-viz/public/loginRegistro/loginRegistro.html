@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>login</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="../js/sessao.js"></script>
+</head>
+
+<body>
+  <div class="login" id="login">
+    <div class="containerL">
+      <div class="boxLogin">
+        <div class="imgBack">
+          <a href="../index.html"><img src="./assets/imgs/Back.png" alt=""></a>
+        </div>
+        <h1>login.</h1>
+        <div class="formsLogin">
+          <div class="email">
+            <p>email.</p>
+            <input type="email" name="" id="inputEmailUsuario">
+          </div>
+          <div class="senha">
+            <p>senha.</p>
+            <input type="password" name="" id="inputSenhaUsuario">
+          </div>
+          <div class="btnsLogin">
+            <button onclick="entrar()">entrar</button>
+            <a onclick="irRegistro()" href="#">crie uma conta.</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="registro" id="registro" style="display: none;">
+    <div class="containerR">
+      <div class="boxRegistro">
+        <div class="imgBack">
+          <a href="../index.html"><img src="./assets/imgs/Back.png" alt=""></a>
+        </div>
+        <h1>registro.</h1>
+        <div class="formsRegistro">
+          <div class="nome">
+            <p>nome.</p>
+            <input type="email" name="" id="inputNome">
+          </div>
+          <div class="email">
+            <p>email.</p>
+            <input type="email" name="" id="inputEmail">
+          </div>
+          <div class="senhas">
+            <div class="senha">
+              <p>senha.</p>
+              <input type="password" name="" id="inputSenha">
+            </div>
+            <div class="senha">
+              <p>confirme sua senha.</p>
+              <input type="password" name="" id="inputConfSenha">
+            </div>
+          </div>
+          <div class="btnsRegistro">
+            <button onclick="cadastrar()">criar conta</button>
+            <a onclick="irLogin()" href="#">Já possui uma conta.</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function irRegistro() {
+    var login = document.getElementById('login');
+    var registro = document.getElementById('registro');
+    login.style.display = 'none';
+    registro.style.display = 'block';
+  }
+
+  function irLogin() {
+    var login = document.getElementById('login');
+    var registro = document.getElementById('registro');
+    login.style.display = 'block';
+    registro.style.display = 'none';
+  }
+</script>
+
+<script>
+
+
+  function entrar() {
+
+    var emailVar = inputEmailUsuario.value;
+    var senhaVar = inputSenhaUsuario.value;
+
+    // if (emailVar == "" || senhaVar == "") {
+    //   cardErro.style.display = "block"
+    //   mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+    //   return false;
+    // }
+    // else {
+    //   setInterval(sumirMensagem, 5000)
+    // }
+
+    console.log("FORM LOGIN: ", emailVar);
+    console.log("FORM SENHA: ", senhaVar);
+
+    fetch("/usuarios/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+
+      if (resposta.ok) {
+        console.log(resposta);
+
+        resposta.json().then(json => {
+          console.log(json);
+          console.log(JSON.stringify(json));
+          sessionStorage.EMAIL_USUARIO = json.email;
+          sessionStorage.NOME_USUARIO = json.nome;
+          sessionStorage.ID_USUARIO = json.id;
+
+          setTimeout(function () {
+            window.location = "../dashboard/dashboard.html";
+          }, 1000); // apenas para exibir o loading
+
+        });
+
+      } else {
+
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        resposta.text().then(texto => {
+          console.error(texto);
+        });
+      }
+
+    }).catch(function (erro) {
+      console.log(erro);
+    })
+
+    return false;
+  }
+
+  // function sumirMensagem() {
+  //   cardErro.style.display = "none"
+  // }
+
+</script>
+
+<script>
+  function cadastrar() {
+
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeVar = inputNome.value;
+    var emailVar = inputEmail.value;
+    var senhaVar = inputSenha.value;
+    var confirmacaoSenhaVar = inputConfSenha.value;
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          setTimeout(() => {
+            window.location = "loginRegistro.html";
+          }, "2000");
+         
+          limparFormulario();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+
+    return false;
+  }
+
+
+</script>
+
+</html>

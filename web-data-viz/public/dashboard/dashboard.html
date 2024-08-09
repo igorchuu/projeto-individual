@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/sessao.js"></script>
+</head>
+
+<body onload="listar(); exibirGrafico();">
+    <header>
+        <nav id="navbar">
+            <div class="left">
+                <div class="logo">
+                    <a href=""><img src="../assets/imgs/logo.png" alt="Logo"></a>
+                </div>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                </ul>
+                <ul>
+                    <li><a href="../quiz/quizKanye.html">Quiz</a></li>
+                </ul>
+                <ul>
+                    <li><a href="../gameMusica/musicGame.html">Jogo</a></li>
+                </ul>
+            </div>
+            <div class="right">
+                <ul>
+                    <li>
+                        <div id="direita">
+                            <p>Nome Usuario</p>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="../index.html" onclick="sair()">
+                            <p>Sair</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="boxGraphs">
+            <div class="titulo">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="box">
+                <div class="tituloGraph">
+                    <p>Grafico de acertos e erros no quiz.</p>
+                </div>
+                <div class="grafico">
+                    <div id="grafico">
+                        <div id="graficoQuiz">
+                            <div class="graph">
+                                <canvas id="myChartCanvas"></canvas>
+                            </div>
+                            <div id="avisoCaptura"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="boxKpi">
+            <div class="rankingJogo">
+                <div class="tituloJogo">
+                    <p>Placar do jogo</p>
+                </div>
+                <div class="leaderboard">
+                    <div class="pontuacao">
+                        <div class="nome">
+                            <p>nome</p>
+                        </div>
+                        <div class="acertos">
+                            <p>acertos</p>
+                        </div>
+                        <div class="erros">
+                            <p>erros</p>
+                        </div>
+                    </div>
+                    <div class="jogador" id="jogadores"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    function verificar() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        var nomeUsuario = sessionStorage.NOME_USUARIO;
+
+        if (idUsuario >= 0) {
+            direita.innerHTML = `<ul><li><p>${nomeUsuario}</p></li></ul>`;
+        } else {
+            window.location = '../index.html';
+        }
+    }
+    verificar();
+
+    function sair() {
+        sessionStorage.clear();
+    }
+
+    function listar() {
+        fetch(`/quiz/listar`, {
+            method: "GET",
+        })
+        .then(function (resposta) {
+            resposta.json().then((resposta) => {
+                resposta.forEach((jogador) => {
+                    jogadores.innerHTML += `<div class="pontuacao"><div class="nome"><p>${jogador.nomeUsuario}</p></div><div class="acertos"><p>${jogador.acertos}</p></div><div class="erros"><p>${jogador.erros}</p></div></div>`;
+                });
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function exibirGrafico() {
+        document.getElementById("grafico").innerHTML += `
+            <div id="graficoQuiz">
+                <div class="graph">
+                    <canvas id="myChartCanvas"></canvas>
+                </div>
+            </div>
+        `;
+        obterDadosGrafico();
+    }
+
+    function obterDadosGrafico() {
+        fetch(`/medidas/ultimas/`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        resposta.reverse();
+                        plotarGrafico(resposta);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function plotarGrafico(resposta) {
+        console.log('iniciando plotagem do gráfico...');
+
+        let labels = [];
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Acertos',
+                data: [],
+                fill: false,
+                borderColor: '#97BE5A',
+                backgroundColor: '#97BE5A',
+                tension: 0.1
+            },
+            {
+                label: 'Erros',
+                data: [],
+                fill: false,
+                borderColor: '#FF0000',
+                backgroundColor: '#FF0000',
+                tension: 0.1
+            }]
+        };
+
+        console.log('Dados recebidos para plotar o gráfico:', resposta);
+
+        for (let i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.nomeUsuario);
+            dados.datasets[0].data.push(registro.acertos);
+            dados.datasets[1].data.push(registro.erros);
+        }
+
+        console.log('Labels:', labels);
+        console.log('Dados do Dataset:', dados.datasets);
+
+        const config = {
+            type: 'bar',
+            data: dados,
+        };
+
+        let ctx = document.getElementById('myChartCanvas').getContext('2d');
+        let myChart = new Chart(ctx, config);
+    }
+</script>
+</html>
